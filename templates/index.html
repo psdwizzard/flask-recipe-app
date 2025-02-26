@@ -1,0 +1,40 @@
+{% extends "base.html" %} {% block title %}Home - Recipe App{% endblock %} {%
+block content %}
+<h1 class="mb-4">Extracted Recipes</h1>
+<div class="row">
+  {% for recipe in recipes %}
+  <div class="col-md-4">
+    <a
+      href="{{ url_for('recipe_detail', recipe_id=recipe.id) }}"
+      style="text-decoration: none; color: inherit"
+    >
+      <div class="card mb-4">
+        {% if recipe.image %}
+        <img
+          src="{{ recipe.image }}"
+          class="card-img-top"
+          alt="{{ recipe.title }}"
+        />
+        {% endif %}
+        <div class="card-body">
+          <h5
+            class="card-title text-truncate"
+            style="max-width: 100%; white-space: nowrap; overflow: hidden"
+          >
+            {{ recipe.title }}
+          </h5>
+          <p class="card-text"><small>By: {{ recipe.author }}</small></p>
+          <p class="card-text">
+            ⭐ {{ "%.1f"|format(recipe.average_rating or 0.0) }} ({{
+            recipe.rating_count or 0 }} ratings)
+          </p>
+        </div>
+      </div>
+    </a>
+  </div>
+  {% endfor %}
+</div>
+<a href="{{ url_for('extract') }}" class="btn btn-primary"
+  >Extract a New Recipe</a
+>
+{% endblock %}

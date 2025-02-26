@@ -1,0 +1,40 @@
+{% extends "base.html" %} {% block title %}Extract Recipe{% endblock %} {% block
+content %}
+<div class="container">
+  <h1 class="mb-4">Extract Recipe</h1>
+
+  <form method="POST">
+    <div class="mb-3">
+      <label for="urls" class="form-label"
+        >Enter Recipe URLs (one per line):</label
+      >
+      <textarea
+        class="form-control"
+        id="urls"
+        name="urls"
+        rows="4"
+        placeholder="https://example.com/recipe1&#10;https://example.com/recipe2&#10;https://example.com/recipe3"
+        required
+      ></textarea>
+    </div>
+
+    <div class="mb-3">
+      <label for="list_id" class="form-label"
+        >Add Recipes to List (Optional):</label
+      >
+      <select class="form-select" id="list_id" name="list_id">
+        <option value="">Don't add to a list</option>
+        {% for list in all_lists %}
+        <option value="{{ list.id }}">{{ list.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Import Recipes</button>
+  </form>
+
+  <a href="{{ url_for('recipes_page') }}" class="btn btn-secondary mt-3"
+    >Back to Recipes</a
+  >
+</div>
+{% endblock %}

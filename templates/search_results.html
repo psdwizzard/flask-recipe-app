@@ -1,0 +1,40 @@
+{% extends "base.html" %} {% block title %}Search Results{% endblock %} {% block
+content %}
+<div class="container">
+  <h1 class="mb-4">Search Results for "{{ query }}"</h1>
+
+  {% if recipes %}
+  <div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for recipe in recipes %}
+    <div class="col">
+      <div class="card h-100 shadow-sm">
+        {% if recipe.image %}
+        <img
+          src="{{ recipe.image }}"
+          class="card-img-top"
+          alt="{{ recipe.title }}"
+          style="max-height: 200px; object-fit: cover"
+        />
+        {% endif %}
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title">{{ recipe.title }}</h5>
+          <p class="text-muted small">
+            {{ recipe.author or "Unknown Author" }}
+          </p>
+          <div class="mt-auto">
+            <a
+              href="{{ url_for('recipe_detail', recipe_id=recipe.id) }}"
+              class="btn btn-primary btn-sm"
+              >View Recipe</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="text-muted">No recipes found.</p>
+  {% endif %}
+</div>
+{% endblock %}

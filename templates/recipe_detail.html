@@ -1,0 +1,47 @@
+{% extends "base.html" %} {% block title %}{{ recipe.title }} - Recipe App{%
+endblock %} {% block content %}
+<h1>{{ recipe.title }}</h1>
+
+{% if recipe.image %}
+<img src="{{ recipe.image }}" class="img-fluid mb-4" alt="{{ recipe.title }}" />
+{% endif %}
+
+<h3>Ingredients</h3>
+<p>{{ recipe.ingredients|replace("\n", "<br />")|safe }}</p>
+
+<h3>Instructions</h3>
+<p>{{ recipe.instructions|replace("\n", "<br />")|safe }}</p>
+
+<h3>Ratings</h3>
+<p>
+  <strong>Average Rating:</strong> ⭐ {{ "%.1f"|format(recipe.average_rating or
+  0.0) }} ({{ recipe.rating_count or 0 }} ratings)
+</p>
+
+<form action="{{ url_for('rate_recipe', recipe_id=recipe.id) }}" method="POST">
+  <label for="rating">Rate this recipe:</label>
+  <select name="rating" class="form-control w-25 d-inline">
+    <option value="1">⭐ 1</option>
+    <option value="2">⭐⭐ 2</option>
+    <option value="3">⭐⭐⭐ 3</option>
+    <option value="4">⭐⭐⭐⭐ 4</option>
+    <option value="5">⭐⭐⭐⭐⭐ 5</option>
+  </select>
+  <button type="submit" class="btn btn-primary">Submit Rating</button>
+</form>
+
+<a
+  href="{{ url_for('edit_recipe', recipe_id=recipe.id) }}"
+  class="btn btn-warning"
+  >Edit Recipe</a
+>
+<a href="{{ url_for('index') }}" class="btn btn-secondary">Back to Home</a>
+<form
+  action="{{ url_for('delete_recipe', recipe_id=recipe.id) }}"
+  method="post"
+  onsubmit="return confirm('Are you sure you want to delete this recipe?');"
+>
+  <button type="submit" class="btn btn-danger">Delete Recipe</button>
+</form>
+
+<div class="container pb-5" style="padding-bottom: 12%">{% endblock %}</div>

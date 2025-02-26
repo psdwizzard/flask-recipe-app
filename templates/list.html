@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Manage Lists</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+    <style>
+      body {
+        padding-top: 70px;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="/">Recipe App</a>
+      </div>
+    </nav>
+
+    <div class="container">
+      <h1 class="mb-4">Manage Lists</h1>
+      <!-- Form to create a new list -->
+      <form
+        action="{{ url_for('add_list') }}"
+        method="POST"
+        class="form-inline mb-4"
+      >
+        <input
+          type="text"
+          name="name"
+          class="form-control mr-2"
+          placeholder="New list name (e.g., Meal Plan)"
+          required
+        />
+        <button type="submit" class="btn btn-primary">Create List</button>
+      </form>
+      <!-- Display existing lists -->
+      <div class="row">
+        {% for l in lists %}
+        <div class="col-md-4">
+          <div class="card mb-4">
+            <div class="card-body">
+              <h5 class="card-title">{{ l.name }}</h5>
+              <a
+                href="{{ url_for('view_list', list_id=l.id) }}"
+                class="btn btn-info btn-sm"
+                >View Recipes</a
+              >
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      <a href="/recipes" class="btn btn-secondary">Back to Recipes</a>
+    </div>
+  </body>
+</html>

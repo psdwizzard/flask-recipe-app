@@ -1,0 +1,46 @@
+{% extends "base.html" %} {% block title %}Recipe Lists{% endblock %} {% block
+content %}
+<h1 class="mb-4">My Recipe Lists</h1>
+
+<!-- Form to Add a New List -->
+<form action="{{ url_for('add_list') }}" method="POST" class="mb-3">
+  <div class="input-group">
+    <input
+      type="text"
+      name="name"
+      class="form-control"
+      placeholder="New List Name"
+      required
+    />
+    <div class="input-group-append">
+      <button type="submit" class="btn btn-success">Add List</button>
+    </div>
+  </div>
+</form>
+
+<!-- Display All Recipe Lists -->
+{% if lists %}
+<div class="list-group">
+  {% for recipe_list in lists %}
+  <div
+    class="list-group-item d-flex justify-content-between align-items-center"
+  >
+    <a
+      href="{{ url_for('view_list', list_id=recipe_list.id) }}"
+      class="text-dark"
+    >
+      <strong>{{ recipe_list.name }}</strong>
+    </a>
+    <form
+      action="{{ url_for('delete_list', list_id=recipe_list.id) }}"
+      method="POST"
+      class="ml-auto"
+    >
+      <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+    </form>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<p>No lists created yet. Start by adding a new list above.</p>
+{% endif %} {% endblock %}
